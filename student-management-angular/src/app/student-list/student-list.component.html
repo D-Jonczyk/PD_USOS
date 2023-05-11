@@ -1,0 +1,23 @@
+<div class="container">
+  <h2>Student List</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Student ID</th>
+        <th>Name</th>
+        <th>E-mail</th>
+        <th>Date of birth</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of students">
+        <td>{{ student.id }}</td>
+        <td>{{ student.first_name + ' ' + student.last_name }}</td>
+        <td>{{ student.email }}</td>
+        <td>{{ student.date_of_birth }}</td>
+        <td><a [routerLink]="['/student', student.id]">View Details</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

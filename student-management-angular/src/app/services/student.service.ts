@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Student } from '../models/student.model';
 
@@ -7,7 +7,7 @@ import { Student } from '../models/student.model';
   providedIn: 'root'
 })
 export class StudentService {
-  private apiUrl = 'http://localhost:8000/students/students/?format=json';
+  private apiUrl = 'http://localhost:8000/api/students';
 
   constructor(private http: HttpClient) { }
 
@@ -20,8 +20,10 @@ export class StudentService {
     return this.http.get<Student>(url);
   }
 
-  createStudent(student: Student): Observable<Student> {
-    return this.http.post<Student>(this.apiUrl, student);
+  addStudent(studentData: any) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this.http.post(this.apiUrl, studentData, { headers });
   }
 
   updateStudent(student: Student): Observable<Student> {

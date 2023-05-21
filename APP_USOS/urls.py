@@ -21,8 +21,5 @@ from django.urls import path, include, re_path
 urlpatterns = [
     # Django Admin site
     path('admin/', admin.site.urls),
-    path('students/', include('student_management.urls')),
-
-    # Angular app
-#    re_path(r'^.*$', TemplateView.as_view(template_name='../student-management-angular/src/index.html')),
+    path('api/', include('student_management.urls'))
 ]

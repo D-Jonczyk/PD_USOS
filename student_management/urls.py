@@ -1,11 +1,19 @@
 from django.urls import path, include
 from rest_framework import routers
-from .views import StudentViewSet
+from .views import StudentViewSet, CourseCreateView, DepartmentCreateView, \
+    TeacherListView, EnrollmentViewSet, AssignmentListCreateView
 
 router = routers.DefaultRouter()
 router.register('students', StudentViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    # path('students/', views.StudentList.as_view(), name='student-list'),
+    path('courses', CourseCreateView.as_view(), name='course-create'),
+    path('departments', DepartmentCreateView.as_view(), name='department-create'),
+    path('teachers', TeacherListView.as_view(), name='teachers'),
+    path('students', StudentViewSet.as_view({'get': 'list', 'post': 'create'}), name='student-list'),
+    path('enrollments', EnrollmentViewSet.as_view({'get': 'list', 'post': 'create'}),
+         name='enrollments'),
+    path('enrollments/<str:user_id>',  EnrollmentViewSet.as_view({'get': 'list'}), name='user-enrollments'),
+    path('assignments', AssignmentListCreateView.as_view({'get': 'list', 'post': 'create'}), name='assignments')
 ]

@@ -1,0 +1,34 @@
+<div class="sidebar">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/">
+        <i class="fas fa-newspaper"></i> Aktualności
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="isAuthenticated && userRole == 'admin'">
+      <a class="nav-link" routerLink="/students">
+        <i class="fas fa-users"></i> Students
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="isAuthenticated && userRole == 'student'">
+      <a class="nav-link" routerLink="/student-profile">
+        <i class="fas fa-users"></i> Profil studenta
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/faculty">
+        <i class="fas fa-chalkboard-teacher"></i> Wydziały
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="isAuthenticated && userRole == 'student'">
+      <a class="nav-link" routerLink="/enrollments">
+        <i class="fas fa-graduation-cap"></i> Moje przedmioty
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="isAuthenticated && userRole == 'student'">
+      <a class="nav-link" routerLink="/grades">
+        <i class="fas fa-chart-line"></i> Moje oceny
+      </a>
+    </li>
+  </ul>
+</div>

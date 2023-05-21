@@ -13,6 +13,11 @@ import { HeaderComponent } from './header/header.component';
 import { AuthButtonComponent } from './auth-button/auth-button.component';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
 import {NgOptimizedImage} from "@angular/common";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { RolesComponent } from './roles/roles.component';
+import { GradesComponent } from './grades/grades.component';
+import { EnrollmentsComponent } from './enrollments/enrollments.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +26,11 @@ import {NgOptimizedImage} from "@angular/common";
     FacultyComponent,
     HeaderComponent,
     AuthButtonComponent,
-    StudentProfileComponent
+    StudentProfileComponent,
+    SidebarComponent,
+    RolesComponent,
+    GradesComponent,
+    EnrollmentsComponent
   ],
   imports: [
     BrowserModule,
@@ -35,9 +44,10 @@ import {NgOptimizedImage} from "@angular/common";
       cacheLocation: 'localstorage',
       authorizationParams: {
         redirect_uri: window.location.origin
-      }
+      },
     }),
     NgOptimizedImage,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

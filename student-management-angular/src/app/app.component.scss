@@ -1,0 +1,11 @@
+
+$grayish-light: #c2bdbd;
+$grayish-dark: #6e6c6c;
+
+.navbar {
+  background-image: linear-gradient(to left, $grayish-light, $grayish-dark);
+}
+
+.user-text {
+  margin-left: 5px; /* Spacing between icon and text */
+}

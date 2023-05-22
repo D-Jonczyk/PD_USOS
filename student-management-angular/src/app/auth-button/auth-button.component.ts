@@ -23,24 +23,7 @@ import {StudentService} from "../services/student.service";
   styles: [],
 })
 export class AuthButtonComponent {
-  studentData: any = {
-    // Set the student data here, such as auth0_id, first_name, last_name, etc.
-  };
-  constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService, private http: HttpClient,
-              private studentService: StudentService) {}
 
+  constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService, private http: HttpClient) {}
 
-
-  registerStudent() {
-    this.studentService.addStudent(this.studentData).subscribe(
-      (response) => {
-        // Handle the success response here
-        console.log('Student registered successfully:', response);
-      },
-      (error) => {
-        // Handle the error response here
-        console.error('Failed to register student:', error);
-      }
-    );
-  }
 }

@@ -15,11 +15,12 @@ export class EnrollmentsComponent implements OnInit {
   ngOnInit(): void {
     this.auth.user$.subscribe((user) => {
       if (user) {
-        const userId = 1;
+        const userId = 8;
 
         this.http.get<any[]>(`http://localhost:8000/api/enrollments/${userId}`).subscribe(
           (enrollments) => {
             this.enrollments = enrollments;
+            console.log(enrollments)
           },
           (error) => {
             console.error('Failed to fetch enrollments:', error);

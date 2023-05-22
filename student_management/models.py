@@ -11,7 +11,6 @@ class Student(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.EmailField(blank=True, null=True)
-    student_id = models.CharField(max_length=10, unique=True)
     major = models.CharField(max_length=50)
     gpa = models.DecimalField(max_digits=3, decimal_places=2)
     auth0_id = models.CharField(max_length=255, blank=True, null=True)

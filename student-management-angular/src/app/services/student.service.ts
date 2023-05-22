@@ -7,7 +7,7 @@ import { Student } from '../models/student.model';
   providedIn: 'root'
 })
 export class StudentService {
-  private apiUrl = 'http://localhost:8000/api/students';
+  private apiUrl = 'http://localhost:8000/api/check_student';
 
   constructor(private http: HttpClient) { }
 
@@ -24,11 +24,6 @@ export class StudentService {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.post(this.apiUrl, studentData, { headers });
-  }
-
-  updateStudent(student: Student): Observable<Student> {
-    const url = `${this.apiUrl}${student.id}/`;
-    return this.http.put<Student>(url, student);
   }
 
   deleteStudent(id: number): Observable<Student> {

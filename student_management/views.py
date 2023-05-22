@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets, generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -89,3 +90,23 @@ class TeacherListView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CheckStudentExistenceView(APIView):
+    def post(self, request):
+        auth0_id = request.data.get('auth0_id')
+
+        try:
+            student = Student.objects.get(auth0_id=auth0_id)
+            # Student exists, return success response
+            return Response({'id': student.id}, status=200)
+        except ObjectDoesNotExist:
+            # Student does not exist, add student to the database
+            student = request.data
+            serializer = StudentSerializer(data=student)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                print(serializer.errors)
+            # Return success response with serialized student data
+            return Response(serializer.data, status=201)

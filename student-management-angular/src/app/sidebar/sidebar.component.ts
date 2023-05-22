@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { AuthService} from "@auth0/auth0-angular";
 import {map} from "rxjs/operators";
 import {RoleService} from "../services/auth.service";
@@ -8,7 +8,7 @@ import {RoleService} from "../services/auth.service";
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   isAuthenticated: boolean = false;
   userRole: string | null = null;
 
@@ -20,6 +20,8 @@ export class SidebarComponent {
   ngOnInit(): void {
     this.auth.idTokenClaims$.subscribe((claims: any) => {
       this.userRole = claims['http://localhost:4200/roles'] || null;
+      console.log("user: " + this.auth.user$.forEach((user) => console.log(user)));
+      console.log('this.auth.appState$', this.auth.appState$);
     });
   }
 }

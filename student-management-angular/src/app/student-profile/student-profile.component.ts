@@ -14,9 +14,11 @@ export class StudentProfileComponent {
     last_name: '',
     email: '',
     major: '',
+    gpa: '',
+    username: '',
     date_of_birth: '',
-    date_added: '',
-    profilePicture: ''
+    profilePicture: '',
+    auth0_id: '',
   };
 
   constructor(public auth: AuthService) {}

@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework import routers
 from .views import StudentViewSet, CourseCreateView, DepartmentCreateView, \
-    TeacherListView, EnrollmentViewSet, AssignmentListCreateView
+    TeacherListView, EnrollmentViewSet, AssignmentListCreateView, CheckStudentExistenceView
 
 router = routers.DefaultRouter()
 router.register('students', StudentViewSet)
@@ -15,5 +15,6 @@ urlpatterns = [
     path('enrollments', EnrollmentViewSet.as_view({'get': 'list', 'post': 'create'}),
          name='enrollments'),
     path('enrollments/<str:user_id>',  EnrollmentViewSet.as_view({'get': 'list'}), name='user-enrollments'),
-    path('assignments', AssignmentListCreateView.as_view({'get': 'list', 'post': 'create'}), name='assignments')
+    path('assignments', AssignmentListCreateView.as_view({'get': 'list', 'post': 'create'}), name='assignments'),
+    path('check_student', CheckStudentExistenceView.as_view(), name='check-student-existence')
 ]

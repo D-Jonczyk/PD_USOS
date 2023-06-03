@@ -1,4 +1,9 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 class Department(models.Model):
@@ -6,23 +11,52 @@ class Department(models.Model):
     description = models.TextField()
 
 
-class Student(models.Model):
-    username = models.CharField(max_length=150)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.EmailField(blank=True, null=True)
-    major = models.CharField(max_length=50)
-    gpa = models.DecimalField(max_digits=3, decimal_places=2)
-    auth0_id = models.CharField(max_length=255, blank=True, null=True)
+class Auth0User(AbstractUser):
+    nickname = models.CharField(max_length=255, blank=True)
+    picture = models.URLField()
+    given_name = models.CharField(max_length=255)
+    family_name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    auth0_id = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.username
+
+
+User = get_user_model()
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    try:
+        if instance.teacher:
+            instance.teacher.save()
+    except ObjectDoesNotExist:
+        pass
+
+    try:
+        if instance.student:
+            instance.student.save()
+    except ObjectDoesNotExist:
+        pass
 
 
 class Teacher(models.Model):
-    username = models.CharField(max_length=150)
-    email = models.EmailField(blank=True, null=True)
-    teacher_id = models.CharField(max_length=10, unique=True)
-    years_of_experience = models.PositiveIntegerField()
-    specialization = models.CharField(max_length=100)
-    auth0_id = models.CharField(max_length=255, blank=True, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # add any additional fields that you want
+    subject = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.user.name
+
+
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # add any additional fields that you want
+    grade = models.IntegerField()
+
+    def __str__(self):
+        return self.user.name
 
 
 class Course(models.Model):

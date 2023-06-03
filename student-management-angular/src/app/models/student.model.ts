@@ -6,8 +6,6 @@ export interface Student {
   gpa: string;
   email: string;
   major: string;
-  date_of_birth: string;
   profilePicture: string;
-  auth0_id: string;
   // additional properties as needed
 }

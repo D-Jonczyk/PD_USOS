@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'student_management.views.Auth0Middleware',
     'corsheaders.middleware.CorsMiddleware',  # CORS
     'django.middleware.common.CommonMiddleware',  # CORS
 ]
@@ -137,3 +138,15 @@ CORS_ORIGIN_ALLOW_ALL = True  # CORS
 CORS_ALLOW_CREDENTIALS = True
 SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SECURE = True
+CORS_ALLOW_ALL_ORIGINS = True
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Default Django authentication backend
+    'auth0auth.backends.Auth0Backend',  # Auth0 authentication backend
+]
+AUTH_USER_MODEL = 'student_management.Auth0User'
+AUTH0_DOMAIN = 'dev-gybtlqrqithbjmgz.us.auth0.com'
+AUTH0_CLIENT_ID = 'YpRo7KJC5yLf3K18bBRk7cyNo5zvqDMC'
+AUTH0_CLIENT_SECRET = 'wN8ZTCjSKrT2uqtwfUHqEXQIbc5vOWcFfGdABmLafQuduEqFH93paFOzicLIh6Qb'
+

@@ -8,6 +8,7 @@ import { Student } from '../models/student.model';
 })
 export class StudentService {
   private apiUrl = 'http://localhost:8000/api/check_student';
+  private getStudentUrl = 'http://localhost:8000/api/students/';
 
   constructor(private http: HttpClient) { }
 
@@ -15,8 +16,8 @@ export class StudentService {
     return this.http.get<Student[]>(this.apiUrl);
   }
 
-  getStudent(id: number): Observable<Student> {
-    const url = `${this.apiUrl}${id}/`;
+  getStudent(id: string | undefined): Observable<Student> {
+    const url = `${this.getStudentUrl}${id}/`;
     return this.http.get<Student>(url);
   }
 
@@ -29,5 +30,11 @@ export class StudentService {
   deleteStudent(id: number): Observable<Student> {
     const url = `${this.apiUrl}${id}/`;
     return this.http.delete<Student>(url);
+  }
+
+  updateStudent(student: Student | undefined): Observable<any> {
+    // @ts-ignore
+    const url = `${this.getStudentUrl}/${student.id}`; // Assuming the student object has an 'id' property
+    return this.http.put(url, student);
   }
 }

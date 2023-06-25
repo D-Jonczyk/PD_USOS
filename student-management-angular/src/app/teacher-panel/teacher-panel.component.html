@@ -1,0 +1,42 @@
+<h1 class="mb-4">Panel Nauczyciela</h1>
+
+<div *ngFor="let course of courses; let i = index" class="card mb-6">
+  <div class="card-header bg-primary text-white">
+    <h2>{{ course.name }}</h2>
+  </div>
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Imię i Nazwisko</th>
+        <th>Email</th>
+        <th>Ocena</th>
+        <th>Nowa ocena</th>
+        <th>Akcja</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let student of course.students">
+        <td>{{ student.student.user.name }}</td>
+        <td>{{ student.student.user.email }}</td>
+        <td>{{ student.grade }}</td>
+        <td>
+          <div class="d-flex">
+            <select [(ngModel)]="student.newGrade" class="form-control">
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+        </td>
+        <td>
+          <div>
+            <button class="btn btn-primary" (click)="updateGrade(course.id, student.student.id, student.newGrade)">Zmień</button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

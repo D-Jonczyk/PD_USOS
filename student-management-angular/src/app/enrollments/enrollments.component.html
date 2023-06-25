@@ -1,6 +1,39 @@
-<h2>Moje przedmioty</h2>
-<ul>
-  <li *ngFor="let course of enrollments">
-    {{ course.name }}
-  </li>
-</ul>
+<div>
+  <h2>Moje przedmioty</h2>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Nazwa kursu</th>
+      <th>Ocena</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let course of enrolledCourses">
+      <td>{{ course.course_name }}</td>
+      <td>{{ course.grade }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div>
+  <h2>Dostępne kursy</h2>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Nazwa kursu</th>
+      <th>Instruktor</th>
+      <th>Akcja</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let course of availableCourses">
+      <ng-container *ngIf="!isEnrolled(course.id)">
+        <td>{{ course.name }}</td>
+        <td>{{ course.instructor.user.given_name }} - {{ course.instructor.user.email }}</td>
+        <td><button class="btn btn-primary" (click)="enrollInCourse(course.id)">Zapisz się</button></td>
+      </ng-container>
+    </tr>
+    </tbody>
+  </table>
+</div>

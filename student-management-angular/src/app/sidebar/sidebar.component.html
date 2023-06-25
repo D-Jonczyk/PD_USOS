@@ -1,13 +1,23 @@
 <div class="sidebar">
   <ul class="nav flex-column">
     <li class="nav-item">
-      <a class="nav-link" routerLink="/">
+      <a class="nav-link" routerLink="/news">
         <i class="fas fa-newspaper"></i> Aktualności
       </a>
     </li>
-    <li class="nav-item" *ngIf="isAuthenticated && userRole == 'admin'">
+    <li class="nav-item" *ngIf="isAuthenticated && (userRole == 'teacher' || isAdmin)">
+      <a class="nav-link" routerLink="/teacher-panel">
+        <i class="fas fa-chart-line"></i> Panel nauczyciela
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="isAuthenticated && isAdmin">
+      <a class="nav-link" routerLink="/admin-panel">
+        <i class="fas fa-chart-line"></i> Panel admina
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="isAuthenticated && (isAdmin)">
       <a class="nav-link" routerLink="/students">
-        <i class="fas fa-users"></i> Students
+        <i class="fas fa-users"></i> Lista studentów
       </a>
     </li>
     <li class="nav-item" *ngIf="isAuthenticated && userRole == 'student'">
@@ -23,11 +33,6 @@
     <li class="nav-item" *ngIf="isAuthenticated && userRole == 'student'">
       <a class="nav-link" routerLink="/enrollments">
         <i class="fas fa-graduation-cap"></i> Moje przedmioty
-      </a>
-    </li>
-    <li class="nav-item" *ngIf="isAuthenticated && userRole == 'student'">
-      <a class="nav-link" routerLink="/grades">
-        <i class="fas fa-chart-line"></i> Moje oceny
       </a>
     </li>
   </ul>

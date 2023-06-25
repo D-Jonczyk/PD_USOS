@@ -1,24 +1,36 @@
 <div class="student-profile" *ngIf="auth.user$ | async as user">
   <h2>Profil studenta</h2>
-  <div class="profile-picture">
-    <img [src]="user.picture" alt="Profile Picture">
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+    <div class="form-group">
+      <label for="given_name">Imię:</label>
+      <input type="text" formControlName="given_name" id="given_name" class="form-control" placeholder="Wpisz imię">
+    </div>
+    <div class="form-group">
+      <label for="name">Nazwisko:</label>
+      <input type="text" formControlName="name" id="name" class="form-control" placeholder="Wpisz nazwisko">
+    </div>
+    <div class="form-group">
+      <label for="nickname">Pseudonim:</label>
+      <input type="text" formControlName="nickname" id="nickname" class="form-control" placeholder="Wpisz pseudonim">
+    </div>
+    <div class="form-group">
+      <label for="picture">URL zdjęcia:</label>
+      <input type="text" formControlName="picture" id="picture" class="form-control" placeholder="Wpisz URL zdjęcia">
+    </div>
+    <div class="form-group" hidden>
+      <label for="auth0_id">Auth0 ID:</label>
+      <input type="text" formControlName="auth0_id" id="auth0_id" class="form-control" readonly>
+    </div>
+    <button type="submit" class="btn btn-primary">Zatwierdź</button>
+  </form>
+
+  <!-- Success Message -->
+  <div *ngIf="successMessage" class="alert alert-success mt-4">
+    {{ successMessage }}
   </div>
-  <div class="profile-details">
-    <div class="profile-field">
-      <label>Imię i nazwisko:</label>
-      <input type="text" readonly [value]="user.name">
-    </div>
-    <div class="profile-field">
-      <label>Email:</label>
-      <input type="email" readonly [value]="user.email">
-    </div>
-    <div class="profile-field">
-      <label>Data aktualizacji:</label>
-      <input type="text" readonly [value]="user.updated_at">
-    </div>
-    <div class="profile-field">
-      <label>Auth0 id:</label>
-      <input type="text" readonly [value]="user.sub">
-    </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger mt-4">
+    {{ errorMessage }}
   </div>
 </div>

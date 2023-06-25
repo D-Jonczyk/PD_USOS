@@ -1,40 +1,48 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Student } from '../models/student.model';
+import {AuthService} from "@auth0/auth0-angular";
+import {switchMap} from "rxjs";
+import {Course, Enrollment} from "../models/models";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StudentService {
-  private apiUrl = 'http://localhost:8000/api/check_student';
-  private getStudentUrl = 'http://localhost:8000/api/students/';
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
-  constructor(private http: HttpClient) { }
-
-  getStudents(): Observable<Student[]> {
-    return this.http.get<Student[]>(this.apiUrl);
+  getEnrolledCourses() {
+    return this.auth.idTokenClaims$.pipe(
+      switchMap((claims: any) =>
+        this.http.get<Enrollment[]>(`http://localhost:8000/api/student-courses`, {
+          headers: {
+            Authorization: `Bearer ${claims.__raw}`
+          }
+        })
+      )
+    );
   }
 
-  getStudent(id: string | undefined): Observable<Student> {
-    const url = `${this.getStudentUrl}${id}/`;
-    return this.http.get<Student>(url);
+  getCourses() {
+    return this.auth.idTokenClaims$.pipe(
+      switchMap((claims: any) =>
+        this.http.get<Course[]>('http://localhost:8000/api/courses', {
+          headers: {
+            Authorization: `Bearer ${claims.__raw}`
+          }
+        })
+      )
+    );
   }
 
-  addStudent(studentData: any) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-    return this.http.post(this.apiUrl, studentData, { headers });
-  }
-
-  deleteStudent(id: number): Observable<Student> {
-    const url = `${this.apiUrl}${id}/`;
-    return this.http.delete<Student>(url);
-  }
-
-  updateStudent(student: Student | undefined): Observable<any> {
-    // @ts-ignore
-    const url = `${this.getStudentUrl}/${student.id}`; // Assuming the student object has an 'id' property
-    return this.http.put(url, student);
+  enrollInCourse(courseId: number) {
+    return this.auth.idTokenClaims$.pipe(
+      switchMap((claims: any) =>
+        this.http.post('http://localhost:8000/api/enroll', { course_id: courseId }, {
+          headers: {
+            Authorization: `Bearer ${claims.__raw}`
+          }
+        })
+      )
+    );
   }
 }

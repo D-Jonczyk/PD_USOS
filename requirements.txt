@@ -1,0 +1,5 @@
+pyjwt
+Django
+django-cors-headers
+requests
+mysqlclient

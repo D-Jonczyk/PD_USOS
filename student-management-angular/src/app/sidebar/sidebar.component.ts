@@ -10,6 +10,7 @@ import {RoleService} from "../services/auth.service";
 })
 export class SidebarComponent implements OnInit {
   isAuthenticated: boolean = false;
+  isAdmin: boolean = false;
   userRole: string | null = null;
 
   constructor(private auth: AuthService, private roleService: RoleService) {
@@ -20,8 +21,9 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     this.auth.idTokenClaims$.subscribe((claims: any) => {
       this.userRole = claims['http://localhost:4200/roles'] || null;
-      console.log("user: " + this.auth.user$.forEach((user) => console.log(user)));
-      console.log('this.auth.appState$', this.auth.appState$);
+      if(claims['is_admin']){
+        this.isAdmin = claims['is_admin'];
+      }
     });
   }
 }

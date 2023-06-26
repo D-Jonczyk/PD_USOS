@@ -1,0 +1,58 @@
+<!-- Formularz Tworzenia Kursu -->
+<div class="container mt-4">
+  <form (ngSubmit)="createCourse()" class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="name" class="form-label">Nazwa</label>
+      <input type="text" [(ngModel)]="course.name" name="name" id="name" class="form-control" placeholder="Nazwa" required>
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Opis</label>
+      <input type="text" [(ngModel)]="course.description" name="description" id="description" class="form-control" placeholder="Opis" required>
+    </div>
+    <div class="mb-3">
+      <label for="department" class="form-label">Wydział</label>
+      <input type="text" [(ngModel)]="course.department" name="department" id="department" class="form-control" placeholder="Wydział" required>
+    </div>
+    <div class="mb-3">
+      <label for="instructor" class="form-label">Prowadzący</label>
+      <input type="text" [(ngModel)]="course.instructor" name="instructor" id="instructor" class="form-control" placeholder="Prowadzący" required>
+    </div>
+    <div class="d-grid gap-2">
+      <button type="submit" class="btn btn-primary">Utwórz Kurs</button>
+    </div>
+  </form>
+
+  <!-- Wskaźnik ładowania -->
+  <div *ngIf="isLoading" class="mt-4">
+    <div class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Ładowanie...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wiadomość o sukcesie lub błędzie -->
+  <div *ngIf="message" class="mt-4">
+    <div class="alert alert-info" role="alert">
+      {{ message }}
+    </div>
+  </div>
+
+  <!-- Lista Kursów -->
+  <div class="mt-4">
+    <h2 class="mb-4">Lista Kursów</h2> <!-- Nagłówek dla sekcji -->
+
+    <div class="card"> <!-- Kontener kart dla listy kursów -->
+      <div class="card-body">
+        <div class="list-group">
+          <div *ngFor="let course of courses" class="list-group-item">
+            <h5 class="mb-1">{{ course.name }}</h5>
+            <p class="mb-1">Opis: {{ course.description }}</p>
+            <p class="mb-1">Wydział: {{ course.department }}</p>
+            <p class="mb-1">Prowadzący: {{ course.instructor }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,15 +6,13 @@
         <th>Student ID</th>
         <th>Name</th>
         <th>E-mail</th>
-        <th>Date of birth</th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let student of students">
-        <td>{{ student.first_name + ' ' + student.last_name }}</td>
-        <td>{{ student.email }}</td>
-        <td>{{ student.date_of_birth }}</td>
+        <td>{{ student.user.name }}</td>
+        <td>{{ student.user.given_name }}</td>
+        <td>{{ student.user.email }}</td>
       </tr>
     </tbody>
   </table>

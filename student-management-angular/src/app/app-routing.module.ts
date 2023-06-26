@@ -5,6 +5,9 @@ import {FacultyComponent} from "./faculty/faculty.component";
 import {StudentProfileComponent} from "./student-profile/student-profile.component";
 import {RolesComponent} from "./roles/roles.component";
 import {EnrollmentsComponent} from "./enrollments/enrollments.component";
+import {AdminPanelComponent} from "./admin-panel/admin-panel.component";
+import {TeacherPanelComponent} from "./teacher-panel/teacher-panel.component";
+import {NewsComponent} from "./news/news.component";
 
 
 const routes: Routes = [
@@ -12,7 +15,10 @@ const routes: Routes = [
   { path: 'faculty', component: FacultyComponent},
   { path: 'student-profile', component: StudentProfileComponent},
   { path: 'roles', component: RolesComponent},
-  { path: 'enrollments', component: EnrollmentsComponent }
+  { path: 'enrollments', component: EnrollmentsComponent },
+  { path: 'admin-panel', component: AdminPanelComponent },
+  { path: 'teacher-panel', component: TeacherPanelComponent },
+  { path: 'news', component: NewsComponent}
 ];
 
 @NgModule({

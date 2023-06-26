@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '@auth0/auth0-angular';
+import {Course, Enrollment} from "../models/models";
+import {StudentService} from "../services/student.service";
 
 @Component({
   selector: 'app-enrollments',
@@ -8,25 +10,36 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrls: ['./enrollments.component.scss']
 })
 export class EnrollmentsComponent implements OnInit {
-  enrollments: any[] = [];
+  enrolledCourses: Enrollment[] = [];
+  availableCourses: Course[] = [];
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(private studentService: StudentService) { }
+
 
   ngOnInit(): void {
-    this.auth.user$.subscribe((user) => {
-      if (user) {
-        const userId = 8;
+    this.getEnrolledCourses();
+    this.getAvailableCourses();
+  }
 
-        this.http.get<any[]>(`http://localhost:8000/api/enrollments/${userId}`).subscribe(
-          (enrollments) => {
-            this.enrollments = enrollments;
-            console.log(enrollments)
-          },
-          (error) => {
-            console.error('Failed to fetch enrollments:', error);
-          }
-        );
-      }
-    });
+  isEnrolled(courseId: number): boolean {
+    return this.enrolledCourses.some(enrollment => enrollment.course_id === courseId);
+  }
+
+  getEnrolledCourses(): void {
+    this.studentService.getEnrolledCourses().subscribe(
+      courses => this.enrolledCourses = courses
+    );
+  }
+
+  getAvailableCourses(): void {
+    this.studentService.getCourses().subscribe(
+      courses => this.availableCourses = courses
+    );
+  }
+
+  enrollInCourse(courseId: number): void {
+    this.studentService.enrollInCourse(courseId).subscribe(
+      () => this.getEnrolledCourses()
+    );
   }
 }

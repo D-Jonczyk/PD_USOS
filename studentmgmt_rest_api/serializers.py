@@ -42,7 +42,7 @@ class TeacherSerializer(serializers.ModelSerializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
-    instructor = TeacherSerializer()
+    instructor = serializers.PrimaryKeyRelatedField(queryset=Teacher.objects.all())
 
     class Meta:
         model = Course

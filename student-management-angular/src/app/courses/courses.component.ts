@@ -13,7 +13,7 @@ export class CoursesComponent {
     name: '',
     description: '',
     department: '', // replace with actual department ID
-    instructor: '', // replace with actual department ID
+    instructor: '',
   };
   isLoading: boolean = false;
   message: string = '';

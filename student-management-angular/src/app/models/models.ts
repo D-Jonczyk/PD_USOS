@@ -16,6 +16,7 @@ export interface Student {
 }
 
 interface Instructor {
+  id: string;
   user: User;
 }
 

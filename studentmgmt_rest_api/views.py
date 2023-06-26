@@ -3,7 +3,7 @@ from django.contrib.auth.models import AnonymousUser
 from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.exceptions import AuthenticationFailed
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser, OR
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Student, Department, Teacher, Course, Enrollment, Assignment
@@ -57,38 +57,6 @@ class IsStudent(permissions.BasePermission):
         return hasattr(request.user, 'student')
 
 
-@api_view(['GET'])
-@permission_classes([IsTeacher])
-def test_teacher(request):
-    # your view logic here
-    return Response('You are a teacher')
-
-
-@api_view(['GET'])
-@permission_classes([IsStudent])
-def test_student(request):
-    # your view logic here
-    return Response('You are a student')
-
-
-@api_view(['GET'])
-def private(request):
-    return JsonResponse({'message': 'Hello from a private endpoint! You need to be authenticated to see this.'})
-
-
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def public(request):
-    return JsonResponse({'message': 'Hello from a public endpoint! You don\'t need to be authenticated to see this.'})
-
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated, IsAdminUser])
-def admin_panel(request):
-    # Your admin panel logic here
-    return Response('Welcome to the admin panel')
-
-
 def get_user_role(user):
     if hasattr(user, 'student'):
         return 'student'
@@ -111,7 +79,6 @@ def get_student_courses(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 @permission_classes([IsStudent])
 def enroll_in_course(request):
     course_id = request.data.get('course_id')
@@ -132,7 +99,6 @@ def enroll_in_course(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 @permission_classes([IsTeacher])
 def get_teacher_courses(request):
     auth0_id = request.user.id
@@ -147,7 +113,6 @@ def get_teacher_courses(request):
 
 # Endpoint for teachers to update the grade of a student in a particular course
 @api_view(['PUT'])
-@permission_classes([IsAuthenticated])
 @permission_classes([IsTeacher])
 def update_student_grade(request, course_id, student_id):
     try:
@@ -171,7 +136,6 @@ def update_student_grade(request, course_id, student_id):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 @permission_classes([IsTeacher])
 def get_students_in_course(request, course_id):
     try:
@@ -287,8 +251,7 @@ def student_list(request):
 
 
 @api_view(['GET', 'POST'])
-@permission_classes([IsTeacher])
-@permission_classes([IsStudent])
+@permission_classes([IsAuthenticated])
 def course_list(request):
     if request.method == 'GET':
         courses = Course.objects.all()

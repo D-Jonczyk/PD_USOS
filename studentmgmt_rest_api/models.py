@@ -60,7 +60,7 @@ class Teacher(models.Model):
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # add any additional fields that you want
-    grade = models.IntegerField()
+    grade = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.name
@@ -82,6 +82,7 @@ class Enrollment(models.Model):
 
     class Meta:
         unique_together = ('student', 'course')
+
 
 class Assignment(models.Model):
     name = models.CharField(max_length=100)
